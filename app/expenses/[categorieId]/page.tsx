@@ -1,8 +1,10 @@
 import prisma from "@/lib/prisma";
-import ExpenseTemplate from "./expenseTemplate";
+import ExpenseTemplate from "../expenseTemplate";
 
-const ExpensePage = async () => {
+const ExpensePage = async ({ params }: { params: Promise< {categorieId: string}>}) => {
+    const {categorieId} = await params;
     const expenses = await prisma.expense.findMany({
+        where: {categorieId: parseInt(categorieId)},
         include: {
             categorie: true,
         }
