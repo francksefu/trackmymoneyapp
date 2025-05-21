@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 const CategoriePage = async () => {
     const categories = await prisma.categorie.findMany();
@@ -24,7 +25,7 @@ const CategoriePage = async () => {
                                     {categorie.isHasLimitAmount ? categorie.amount : '-'}
                                 </td>
                                 <td className="px-6 py-4">
-                                    89 USD (but must be a link)
+                                    <Link href={`/expenses/${categorie.id}`}> Details </Link>
                                 </td>
                                 <td>
                                     <button className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
