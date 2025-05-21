@@ -156,7 +156,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -176,7 +176,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Expense {\n  id          Int       @id @default(autoincrement())\n  amount      Float\n  date        DateTime\n  description String?\n  categorieId Int\n  categorie   Categorie @relation(fields: [categorieId], references: [id])\n}\n\nmodel Categorie {\n  id               Int       @id @default(autoincrement())\n  name             String\n  isHasLimitAmount Boolean\n  amount           Float?\n  expenses         Expense[]\n}\n",
   "inlineSchemaHash": "70ebfd9b216fa9f25de450aecfd133241bca13ccdd64969c7b73e8f14a26cfa2",
-  "copyEngine": false
+  "copyEngine": true
 }
 config.dirname = '/'
 

@@ -13,6 +13,7 @@ const CategoriePage = async () => {
                             <th scope="col" className="px-6 py-3">Name</th>
                             <th scope="col" className="px-6 py-3">Amount limit</th>
                             <th scope="col" className="px-6 py-3">Current related expenses</th>
+                            <th scope="col" className="px-6 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
