@@ -29,9 +29,9 @@ const CategoriePage = async () => {
                                     <Link href={`/expenses/${categorie.id}`}> Details </Link>
                                 </td>
                                 <td>
-                                    <button className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
+                                    <Link href={`/categories/edit/${categorie.id}`} className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
                                         Edit
-                                    </button>
+                                    </Link>
                                     <button className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
                                         Delete
                                     </button>
