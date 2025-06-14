@@ -1,8 +1,9 @@
 'use client'
 import { useState } from "react";
 import Select from "react-select";
+import CreateExpenses from "../createExpense";
 
-export default function AddOrUpdateCategorie ({categories}: {categories: {
+export default function AddOrUpdateExpense ({categories}: {categories: {
     name: string;
     id: number;
     amount: number | null;
@@ -22,11 +23,12 @@ export default function AddOrUpdateCategorie ({categories}: {categories: {
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white text-center py-3">Add new type of expenses</h2>
-                <form className="mx-auto">
+                <form className="mx-auto" action={CreateExpenses}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="">Related category</label>
                             <Select 
+                                id="select-expenses"
                                 defaultValue={categorie}
                                 options={options}
                                 name="idCategorie"
