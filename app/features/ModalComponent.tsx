@@ -1,13 +1,12 @@
 'use client'
-import Update from "@/app/categories/edit/[id]/page";
-import { useState } from "react";
 import Modal from "react-modal";
+import { useState } from "react";
+import AddOrUpdateCategorie from "../categories/addOrUpdateCategorie";
+import { useRouter } from 'next/navigation';
 
-
-export default async function Page({ params }: { params: Promise< {id: string}>}) {
-    const {id} = await params;
+export default function ModalComponent ({data}: {data: null|{name: string, isHasLimitAmount: boolean, amount: null|number, id: number}}) {
     const [modalIsOpen, setIsOpen] = useState(true);
-
+    const router = useRouter();
     const customStyles = {
         content: {
           top: '50%',
@@ -25,6 +24,7 @@ export default async function Page({ params }: { params: Promise< {id: string}>}
 
     function closeModal() {
         setIsOpen(false);
+        router.push('/categories');
     }
 
     function afterOpenModal() {
@@ -37,8 +37,10 @@ export default async function Page({ params }: { params: Promise< {id: string}>}
             onRequestClose={closeModal}
             style={customStyles}
             contentLabel="Example"
+            ariaHideApp={false}
         >
-          <Update params={params}/>  
+          <AddOrUpdateCategorie data={data} />
+                           
         </Modal>
     );
-  }
+}
