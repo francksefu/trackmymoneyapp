@@ -33,3 +33,17 @@ export default async function CreateCategorie(formData: FormData) {
     revalidatePath("/categories");
     redirect("/categories");
 }
+
+export async function DeleteCategorie (formData: FormData) {
+    const id = parseInt(formData.get("id") as string);
+    if(id) {
+        await prisma.expense.deleteMany({
+            where: {categorieId: id}
+        });
+        await prisma.categorie.delete({
+            where: {id: id}
+        });
+    }
+    revalidatePath("/categories");
+    redirect("/categories");
+}
