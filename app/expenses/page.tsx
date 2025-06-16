@@ -1,14 +1,21 @@
 import prisma from "@/lib/prisma";
 import ExpenseTemplate from "./expenseTemplate";
 
-const ExpensePage = async () => {
+type SearchParamProps = {
+    searchParams: Record<string, string> | null | undefined;
+};
+
+const ExpensePage = async ({searchParams}: SearchParamProps) => {
     const expenses = await prisma.expense.findMany({
         include: {
             categorie: true,
-        }
+        },
+        orderBy: [
+            {id: 'desc'},
+        ]
     });
     return (
-        <ExpenseTemplate expenses={expenses} />
+        <ExpenseTemplate expenses={expenses} searchParams={searchParams} />
     );
 }
 

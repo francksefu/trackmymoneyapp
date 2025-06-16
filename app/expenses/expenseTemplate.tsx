@@ -1,4 +1,13 @@
-export default async function ExpenseTemplate ({expenses} : {expenses: ({
+import Link from "next/link";
+import ModalUpdateDeleteExpense from "./ModalUpdateDeleteExpense";
+import prisma from "@/lib/prisma";
+
+type SearchParamProps = {
+    show: Record<string, string> | null | undefined;
+    delete: Record<string, string> | null | undefined;
+};
+
+export default async function ExpenseTemplate ({searchParams, expenses} : {searchParams: Record<string, string> | null | undefined, expenses: ({
     categorie: {
         name: string;
         id: number;
@@ -12,6 +21,11 @@ export default async function ExpenseTemplate ({expenses} : {expenses: ({
     description: string | null;
     categorieId: number;
 })[]}) {
+    const showContent = await searchParams;
+    console.log(showContent?.show)
+    const show = showContent?.show;
+    const deleteCategorie = showContent?.delete;
+    const categories = await prisma.categorie.findMany();
     return (
         <main className="container mx-auto px-6 py-4">
             <h1 className="text-2xl p-3 mb-3 mt-3 sm:mt-1 dark:text-white sm:mb-1 text-center text-gray-500">List of my expenses</h1>
@@ -55,17 +69,19 @@ export default async function ExpenseTemplate ({expenses} : {expenses: ({
                                     {expense.categorie.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
+                                    <Link href={`/expenses/?show=${expense.id}`} className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
                                         Edit
-                                    </button>
-                                    <button className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
+                                    </Link>
+                                    <Link href={`/expenses/?delete=${expense.id}`} className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
                                         Delete
-                                    </button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                {show &&  (<ModalUpdateDeleteExpense categories={categories} deleteId={null} data={await prisma.expense.findUnique({ where : {id: parseInt(show)}, include: {categorie: true}})}/>)}
+                {deleteCategorie &&  (<ModalUpdateDeleteExpense categories={null} deleteId={parseInt(deleteCategorie)} data={null}/>)}
             </div>
         </main>
     );
