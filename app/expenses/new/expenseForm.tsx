@@ -3,17 +3,31 @@ import { useState } from "react";
 import Select from "react-select";
 import CreateExpenses from "../createExpense";
 
-export default function AddOrUpdateExpense ({categories}: {categories: {
+export default function AddOrUpdateExpense ({data, categories}: {data: null|({
+    categorie: {
+        name: string;
+        id: number;
+        amount: number | null;
+        isHasLimitAmount: boolean;
+    };
+} & {
+    id: number;
+    amount: number;
+    date: Date;
+    description: string | null;
+    categorieId: number;
+}),categories: null|{
     name: string;
     id: number;
     amount: number | null;
     isHasLimitAmount: boolean;
     }[]}) {
-    const [description, setDescription] = useState('');
-    const [datetime, setDatetime] = useState(new Date().toISOString().slice(0, 16));
-    const [amount, setAmount] = useState(0);
-    const [categorie, setCategorie] = useState({value: 0, label: 'Choose'});
-    const options = categories.map((categorie :{
+    const [id, setId] = useState(0);
+    const [description, setDescription] = useState(data ? data.description ? data.description : '' : '');
+    const [datetime, setDatetime] = useState(data ? new Date(data.date).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16));
+    const [amount, setAmount] = useState(data ? data.amount : 0);
+    const [categorie, setCategorie] = useState(data ? {value: data.categorieId, label: data.categorie.name} : {value: 0, label: 'Choose'});
+    const options = categories?.map((categorie :{
         name: string;
         id: number;
         amount: number | null;
@@ -53,7 +67,7 @@ export default function AddOrUpdateExpense ({categories}: {categories: {
                             <label htmlFor="datetime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
                             <input
                                 type="datetime-local"
-                                name="date"
+                                name="datetime"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Date"
                                 value={datetime}
@@ -64,7 +78,8 @@ export default function AddOrUpdateExpense ({categories}: {categories: {
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="">Related category</label>
                             <textarea
-                                id="message"
+                                id="description"
+                                name="description"
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."
                                 defaultValue={description}
                                 onChange={(e) => setDescription(e.target.value)}
@@ -73,6 +88,7 @@ export default function AddOrUpdateExpense ({categories}: {categories: {
                         </div>
                             
                     </div>
+                    <input type="hidden" name="id" value={id} onChange={(e) => setId(e.target.value? parseFloat(e.target.value) : 0)} />
                     <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">Add categorie</button>
                 </form>
             </div>

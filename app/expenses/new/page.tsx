@@ -1,10 +1,10 @@
 import prisma from "@/lib/prisma";
-import AddOrUpdateCategorie from "./expenseForm";
+import AddOrUpdateExpense from "./expenseForm";
 
 
 export default async function PageAddOrUpdateCategorie () {
     const categories = await prisma.categorie.findMany();
     return(
-        <AddOrUpdateCategorie categories={categories} />
+        <AddOrUpdateExpense data={null} categories={categories} />
     );
 }

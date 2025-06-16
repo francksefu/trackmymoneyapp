@@ -10,7 +10,7 @@ const ExpensePage = async ({ params }: { params: Promise< {categorieId: string}>
         }
     });
     return (
-        <ExpenseTemplate expenses={expenses} />
+        <ExpenseTemplate expenses={expenses} searchParams={null}/>
     );
 }
 
