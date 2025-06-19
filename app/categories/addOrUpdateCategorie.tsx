@@ -1,18 +1,31 @@
 'use client'
 import { useState } from "react";
 import CreateCategorie from "./new/createCategorie";
+import { useActionState } from "react";
 
 
 export default function AddOrUpdateCategorie ({data}: {data: null|{name: string, isHasLimitAmount: boolean, amount: null|number, id: number}}) {
     const [name, setName] = useState(data ? data.name : '');
     const [isHasLimitAmount, setIsHasLimitAmount] = useState(data ? data.isHasLimitAmount : false);
-    const [amount, setAmount] = useState(data ? data.amount : '');
-    const [id, setId] = useState(data ? data.id : '')
+    const [amount, setAmount] = useState(data ? data.amount : 0);
+    const [id, setId] = useState(data ? data.id : '');
+    const [message, setMessage] = useState({name: '', amount: ''})
+    const initialState = {
+        success: "",
+        errors: {
+          name: "",
+          amount: "",
+        }
+      };
+    const [state, formAction, isPending] = useActionState(CreateCategorie, initialState);
+    console.log(state);
+    
     return(
         <section className="bg-white dark:bg-gray-900">
+            
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white text-center py-3">Add new type of expenses</h2>
-                <form className="mx-auto" action={CreateCategorie}>
+                <form className="mx-auto" action={formAction}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="">Name of category</label>
@@ -23,9 +36,12 @@ export default function AddOrUpdateCategorie ({data}: {data: null|{name: string,
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Name"
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
+                                onChange={(e) => {
+                                    setName(e.target.value)
+                                }}
+                                
                             />
+                            {state.errors?.name ? (<div className="text-red-500">{state.errors?.name}</div>) : ""}
                         </div>
                         
                             <div className="w-full">
@@ -53,14 +69,16 @@ export default function AddOrUpdateCategorie ({data}: {data: null|{name: string,
                                         placeholder="Amount limit"
                                         value={amount ? amount : ''}
                                         onChange={(e) => setAmount(e.target.value? parseFloat(e.target.value) : 0)}
-                                        required
+                                        
                                     />
+                                    {state.errors?.amount ? (<div className="text-red-500">{state.errors?.amount}</div>) : ""}
                                 </div>
                             )}
                             <input type="hidden" name="id" value={id} onChange={(e) => setId(e.target.value? parseFloat(e.target.value) : 0)} />
                         
                     </div>
-                    <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">Add categorie</button>
+                    <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">{isPending ? "Loading..." : "Categorie"}</button>
+                    {state.success ? (<div className="text-red-500">{state.success}</div>) : ""}
                 </form>
             </div>
         </section>
