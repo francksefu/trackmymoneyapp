@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import Select from "react-select";
 import CreateExpenses from "../createExpense";
 
@@ -22,10 +22,20 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
     amount: number | null;
     isHasLimitAmount: boolean;
     }[]}) {
+    const initialState = {
+        success: "",
+        errors: {
+            amount: "",
+            description: "",
+            categorieId: "",
+            date: "",
+        }
+    }
+    const [state, formAction, isPending] = useActionState(CreateExpenses, initialState)
     const [id, setId] = useState(0);
     const [description, setDescription] = useState(data ? data.description ? data.description : '' : '');
     const [datetime, setDatetime] = useState(data ? new Date(data.date).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16));
-    const [amount, setAmount] = useState(data ? data.amount : 0);
+    const [amount, setAmount] = useState(data ? data.amount : '');
     const [categorie, setCategorie] = useState(data ? {value: data.categorieId, label: data.categorie.name} : {value: 0, label: 'Choose'});
     const options = categories?.map((categorie :{
         name: string;
@@ -37,7 +47,7 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white text-center py-3">Add new type of expenses</h2>
-                <form className="mx-auto" action={CreateExpenses}>
+                <form className="mx-auto" action={formAction}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="">Related category</label>
@@ -47,6 +57,7 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 options={options}
                                 name="idCategorie"
                             />
+                            {state.errors?.categorieId ? (<div className="text-red-500">{state.errors?.categorieId}</div>) : ""}
                         </div>
                         
                         <div className="w-full">
@@ -60,8 +71,9 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 placeholder="Amount limit"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value? parseFloat(e.target.value) : 0)}
-                                required
+                                
                             />
+                            {state.errors?.amount ? (<div className="text-red-500">{state.errors?.amount}</div>) : ""}
                         </div>
                         <div className="w-full">
                             <label htmlFor="datetime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
@@ -74,9 +86,10 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 onChange={(e) => setDatetime(e.target.value)}
                                 required
                             />
+                            {state.errors?.date ? (<div className="text-red-500">{state.errors?.date}</div>) : ""}
                         </div>
                         <div className="sm:col-span-2">
-                            <label htmlFor="name" className="">Related category</label>
+                            <label htmlFor="name" className="">Comment or small description</label>
                             <textarea
                                 id="description"
                                 name="description"
@@ -85,11 +98,13 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 onChange={(e) => setDescription(e.target.value)}
                             >
                             </textarea>
+                            {state.errors?.description ? (<div className="text-red-500">{state.errors?.description}</div>) : ""}
                         </div>
                             
                     </div>
+                    {state.success ? (<div className="text-green-500">{state.success}</div>) : ""}
                     <input type="hidden" name="id" value={id} onChange={(e) => setId(e.target.value? parseFloat(e.target.value) : 0)} />
-                    <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">Add categorie</button>
+                    <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">{isPending ? "Loading..." : "Expense"}</button>
                 </form>
             </div>
         </section>
