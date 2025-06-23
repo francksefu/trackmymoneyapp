@@ -113,14 +113,17 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.ExpenseOrderByRelevanceFieldEnum = {
+  description: 'description'
+};
+
+exports.Prisma.CategorieOrderByRelevanceFieldEnum = {
+  name: 'name'
 };
 
 
@@ -166,7 +169,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "postgresql",
+  "activeProvider": "mysql",
   "inlineDatasources": {
     "db": {
       "url": {
@@ -175,8 +178,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Expense {\n  id          Int       @id @default(autoincrement())\n  amount      Float\n  date        DateTime\n  description String?\n  categorieId Int\n  categorie   Categorie @relation(fields: [categorieId], references: [id])\n}\n\nmodel Categorie {\n  id               Int       @id @default(autoincrement())\n  name             String\n  isHasLimitAmount Boolean\n  amount           Float?\n  expenses         Expense[]\n}\n",
-  "inlineSchemaHash": "70ebfd9b216fa9f25de450aecfd133241bca13ccdd64969c7b73e8f14a26cfa2",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Expense {\n  id          Int       @id @default(autoincrement())\n  amount      Float\n  date        DateTime\n  description String?\n  categorieId Int\n  categorie   Categorie @relation(fields: [categorieId], references: [id])\n}\n\nmodel Categorie {\n  id               Int       @id @default(autoincrement())\n  name             String\n  isHasLimitAmount Boolean\n  amount           Float?\n  expenses         Expense[]\n}\n",
+  "inlineSchemaHash": "d126efb1a3985e86b793aaf7efd5ac5fdfac902d5deeb1a55d6641b8fda920a7",
   "copyEngine": true
 }
 

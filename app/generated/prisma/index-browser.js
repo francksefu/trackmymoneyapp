@@ -140,14 +140,17 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.ExpenseOrderByRelevanceFieldEnum = {
+  description: 'description'
+};
+
+exports.Prisma.CategorieOrderByRelevanceFieldEnum = {
+  name: 'name'
 };
 
 
