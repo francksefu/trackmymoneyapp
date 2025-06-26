@@ -14,6 +14,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id Int @id @default(autoincrement())
+  email String
+  password String
+  names String?
+  dateT DateTime?
+  categorie Categorie[]
+}
+
 model Expense {
   id Int @id @default(autoincrement())
   amount Float
@@ -29,4 +38,6 @@ model Categorie {
   isHasLimitAmount Boolean
   amount Float?
   expenses Expense[]
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }

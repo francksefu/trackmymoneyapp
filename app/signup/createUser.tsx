@@ -1,0 +1,56 @@
+import { z } from "zod";
+import { date } from "zod/v4";
+
+export default function CreateUser(state: any,formData: FormData) {
+    const names = formData.get("names") as string;
+    const email = formData.get('email') as string;
+    const password = formData.get("password") as string;
+    const dateT = formData.get("dateT") as string;
+
+    const date = new Date(dateT);
+    const SignupFormSchema = z.object({
+        names: z
+          .string()
+          .min(2, { message: 'Name must be at least 2 characters long.' })
+          .trim(),
+        email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+        password: z
+          .string()
+          .min(8, { message: 'Be at least 8 characters long' })
+          .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
+          .regex(/[0-9]/, { message: 'Contain at least one number.' })
+          .regex(/[^a-zA-Z0-9]/, {
+            message: 'Contain at least one special character.',
+          })
+          .trim(),
+        date: z.date()
+      });
+    
+      const validate = SignupFormSchema.safeParse({
+        names, email, password, date
+      })
+
+      if (! validate.success) {
+        const formFieldErrors = validate.error.flatten().fieldErrors;
+        return {
+            success: "",
+              errors: {
+                email: formFieldErrors?.email,
+                password: formFieldErrors?.password,
+                names: formFieldErrors?.names,
+                date: formFieldErrors?.date
+            }
+        }
+      } else {
+        //Insert
+        return {
+            success: "Successfully inserted",
+            errors: {
+              email: '',
+              password: '',
+              names: '',
+              date: '',
+          }  
+        }
+      }
+}
