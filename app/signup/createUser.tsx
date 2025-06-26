@@ -1,7 +1,12 @@
+'use server'
 import { z } from "zod";
 import { date } from "zod/v4";
+import bcrypt from "bcryptjs";
+import prisma from "@/lib/prisma";
+import { createSession } from "@/app/features/session";
+import { redirect } from "next/navigation";
 
-export default function CreateUser(state: any,formData: FormData) {
+export default async function CreateUser(state: any,formData: FormData) {
     const names = formData.get("names") as string;
     const email = formData.get('email') as string;
     const password = formData.get("password") as string;
@@ -43,6 +48,32 @@ export default function CreateUser(state: any,formData: FormData) {
         }
       } else {
         //Insert
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const data = await prisma.user.create({
+            data: {
+                names,
+                email,
+                password: hashedPassword,
+                dateT: date
+            }
+        });
+
+        const user = data
+ 
+        if (!user) {
+            return {
+                success: "",
+                errors: {
+                  email: '',
+                  password: 'An error occured',
+                  names: '',
+                  date: '',
+              }  
+            }
+        }
+        await createSession(user.id)
+        // 5. Redirect user
+        redirect('/expenses')
         return {
             success: "Successfully inserted",
             errors: {
@@ -54,3 +85,4 @@ export default function CreateUser(state: any,formData: FormData) {
         }
       }
 }
+

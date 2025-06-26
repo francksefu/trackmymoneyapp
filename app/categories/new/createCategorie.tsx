@@ -36,7 +36,8 @@ export default async function CreateCategorie(state: any, formData: FormData) {
                 data: {
                     name,
                     isHasLimitAmount,
-                    amount
+                    amount,
+                    userId: 1
                 }
             });
         }
