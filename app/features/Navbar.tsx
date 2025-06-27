@@ -2,6 +2,7 @@
 import { verifySession } from "@/lib/dal";
 import Link from "next/link";
 import { useState } from "react";
+import { deleteSession } from "./session";
 
 const Navbar = () => {
     const links = [
@@ -12,12 +13,14 @@ const Navbar = () => {
                 {
                     id: 11,
                     title: 'List expenses',
-                    href: '/expenses'
+                    href: '/expenses',
+                    type: 'link'
                 },
                 {
                     id: 12,
                     title: 'Create expenses',
-                    href: '/expenses/new'
+                    href: '/expenses/new',
+                    type: 'link'
                 },
             ],
             expendedMenu: null
@@ -29,16 +32,18 @@ const Navbar = () => {
                 {
                     id: 21,
                     title: 'List categories',
-                    href: '/categories'
+                    href: '/categories',
+                    type: 'link'
                 },
                 {
                     id: 22,
                     title: 'Create categories',
-                    href: '/categories/new'
+                    href: '/categories/new',
+                    type: 'link'
                 },
             ],
             expendedMenu: null
-        },
+        }
     ]
     return(
         <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -59,7 +64,11 @@ const Navbar = () => {
                             <NavItemDropdown key={link.id} items={link} />
                         ))}
                     </ul>
+                    
                 </div>
+                <button type="button" onClick={async () => {
+                    await deleteSession()
+                }} >Log out</button>
             </div>
         </nav>
     );
@@ -68,12 +77,21 @@ const Navbar = () => {
 type Menu = {
     id: number,
     title: string,
-    href: string
+    href?: string,
+    type?: string,
+    onClick?: Function,
 }
 const NavItem = ({items}: {items: Menu}) => {
+    if (items.type == "button") {
+        return (
+            <li key={items.id}>
+                <button onClick={() => {items.onClick}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" aria-current="page">{items.title}</button>
+            </li>
+        )
+    }
     return(
         <li key={items.id}>
-            <Link href={items.href} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" aria-current="page">{items.title}</Link>
+            <Link href={items.href?items.href : '#'} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" aria-current="page">{items.title}</Link>
         </li>
     );
 }
@@ -96,13 +114,11 @@ const NavItemDropdown = ({items}:{items:({id: number, title: string, contents: M
                 </ul>
                 {items.expendedMenu && (
                     <div className="py-1">
-                        <a href={items.expendedMenu.href} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">{items.expendedMenu.title}</a>
+                        <Link href={items.expendedMenu.href ?? "#" } className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">{items.expendedMenu.title}</Link>
                     </div>
                 )}
-                
             </div>
             )}
-            
         </li>
     );
 }

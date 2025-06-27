@@ -3,6 +3,7 @@
 import { SignJWT, jwtVerify } from 'jose'
 //import { SessionPayload } from '@/app/lib/definitions'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 const secretKey = 'hello'//process.env.SECRET_KEY;
 const encodedKey = new TextEncoder().encode(secretKey)
@@ -11,6 +12,7 @@ export async function createSession(userId: number) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   const session = await encrypt({ userId, expiresAt })
   const cookieStore = await cookies()
+  const cookieUser = await cookies();
  
   cookieStore.set('session', session, {
     httpOnly: true,
@@ -19,6 +21,7 @@ export async function createSession(userId: number) {
     sameSite: 'lax',
     path: '/',
   })
+  
 }
 
 export async function encrypt(payload: any) {
@@ -63,4 +66,5 @@ export async function encrypt(payload: any) {
   export async function deleteSession() {
     const cookieStore = await cookies()
     cookieStore.delete('session')
+    redirect('/login')
   }
