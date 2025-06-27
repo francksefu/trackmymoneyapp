@@ -41,7 +41,7 @@ export default async function CreateCategorie(state: any, formData: FormData) {
                     name,
                     isHasLimitAmount,
                     amount,
-                    userId: 2,
+                    userId: typeof(session.userId) == 'number' ? session.userId : 0,
                 }
             });
         }

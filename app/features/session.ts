@@ -7,7 +7,7 @@ import { cookies } from 'next/headers'
 const secretKey = 'hello'//process.env.SECRET_KEY;
 const encodedKey = new TextEncoder().encode(secretKey)
  
-export async function createSession(userId: string|number) {
+export async function createSession(userId: number) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   const session = await encrypt({ userId, expiresAt })
   const cookieStore = await cookies()

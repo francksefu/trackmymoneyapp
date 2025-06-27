@@ -57,7 +57,7 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 options={options}
                                 name="idCategorie"
                             />
-                            {state.errors?.categorieId ? (<div className="text-red-500">{state.errors?.categorieId}</div>) : ""}
+                            {state?.errors?.categorieId ? (<div className="text-red-500">{state.errors?.categorieId}</div>) : ""}
                         </div>
                         
                         <div className="w-full">
@@ -73,7 +73,7 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 onChange={(e) => setAmount(e.target.value? parseFloat(e.target.value) : 0)}
                                 
                             />
-                            {state.errors?.amount ? (<div className="text-red-500">{state.errors?.amount}</div>) : ""}
+                            {state?.errors?.amount ? (<div className="text-red-500">{state.errors?.amount}</div>) : ""}
                         </div>
                         <div className="w-full">
                             <label htmlFor="datetime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
@@ -86,7 +86,7 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 onChange={(e) => setDatetime(e.target.value)}
                                 required
                             />
-                            {state.errors?.date ? (<div className="text-red-500">{state.errors?.date}</div>) : ""}
+                            {state?.errors?.date ? (<div className="text-red-500">{state.errors?.date}</div>) : ""}
                         </div>
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="">Comment or small description</label>
@@ -98,11 +98,11 @@ export default function AddOrUpdateExpense ({data, categories}: {data: null|({
                                 onChange={(e) => setDescription(e.target.value)}
                             >
                             </textarea>
-                            {state.errors?.description ? (<div className="text-red-500">{state.errors?.description}</div>) : ""}
+                            {state?.errors?.description ? (<div className="text-red-500">{state.errors?.description}</div>) : ""}
                         </div>
                             
                     </div>
-                    {state.success ? (<div className="text-green-500">{state.success}</div>) : ""}
+                    {state?.success ? (<div className="text-green-500">{state.success}</div>) : ""}
                     <input type="hidden" name="id" value={id} onChange={(e) => setId(e.target.value? parseFloat(e.target.value) : 0)} />
                     <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">{isPending ? "Loading..." : "Expense"}</button>
                 </form>
