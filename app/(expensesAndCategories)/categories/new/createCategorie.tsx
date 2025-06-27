@@ -7,8 +7,9 @@ import { redirect } from "next/navigation";
 import { number, success, z } from "zod/v4";
 
 export default async function CreateCategorie(state: any, formData: FormData) {
-    /*const session = await verifySession()
-    if (!session) return null*/
+    const session = await verifySession()
+    if (!session) return null
+    let userId = session.userId;
     const id = parseInt(formData.get("id") as string);
     const name = formData.get("name") as string;
     let isHasLimitAmountInString = formData.get("isHasLimitAmount") as string;
@@ -31,7 +32,7 @@ export default async function CreateCategorie(state: any, formData: FormData) {
                 data: {
                     name,
                     isHasLimitAmount,
-                    amount
+                    amount,
                 }
             });
         } else {
@@ -40,7 +41,7 @@ export default async function CreateCategorie(state: any, formData: FormData) {
                     name,
                     isHasLimitAmount,
                     amount,
-                    userId: 1
+                    userId: 2,
                 }
             });
         }

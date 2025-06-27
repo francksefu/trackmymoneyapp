@@ -10,16 +10,16 @@ type SearchParamProps = {
 };
 
 const CategoriePage = async ({ searchParams }: SearchParamProps) => {
-    /*const session = await verifySession()
-    if (!session) return null*/
+    const session = await verifySession()
+    if (!session) return null
     const showContent = await searchParams;
     const show = showContent?.show;
     const deleteCategorie = showContent?.delete;
     let dataToUpdate : {name: string, isHasLimitAmount: boolean, amount: null|number, id: number}|null
     if (show) {
-        dataToUpdate = await prisma.categorie.findUnique({ where : {id: parseInt(show)}})
+        dataToUpdate = await prisma.categorie.findUnique({ where : {id: parseInt(show), userId: session.userId}})
     }
-    const categories = await prisma.categorie.findMany();
+    const categories = await prisma.categorie.findMany({ where : {userId: session.userId}});
     return (
         <main className="container mx-auto px-6 py-4">
             <h1 className="text-2xl p-3 mb-3 mt-3 sm:mt-1 sm:mb-1 text-center text-gray-500">Categories of expenses</h1>

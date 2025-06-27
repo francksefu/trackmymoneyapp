@@ -7,8 +7,8 @@ export const verifySession = (async() => {
   const cookie = (await cookies()).get('session')?.value
   const session = await decrypt(cookie)
 
-  if (session?.userId) {
+  if (! session?.userId) {
     redirect('/signup')
   }
-  return { isAuth: true, userId: session?.userId }
+  return { isAuth: true, userId: session.userId }
 })

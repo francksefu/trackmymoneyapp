@@ -86,3 +86,66 @@ export default async function CreateUser(state: any,formData: FormData) {
       }
 }
 
+export async function Login(state: any, formData: FormData) {
+  const email = formData.get('email') as string;
+  const password = formData.get("password") as string;
+  const SignupFormSchema = z.object({
+    email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+    password: z
+      .string()
+      .min(8, { message: 'Be at least 8 characters long' })
+      .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
+      .regex(/[0-9]/, { message: 'Contain at least one number.' })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: 'Contain at least one special character.',
+      })
+      .trim(),
+  });
+
+  const validate = SignupFormSchema.safeParse({
+    email, password
+  })
+
+  if (! validate.success) {
+    const formFieldErrors = validate.error.flatten().fieldErrors;
+    return {
+      success: "",
+      errors: {
+        email: formFieldErrors?.email,
+        password: formFieldErrors?.password,
+      }
+    }
+  } else {
+    const data = await prisma.user.findUnique({
+      where: {email: email}
+    })
+
+    const user = data;
+    
+    if (!user) {
+      return {
+        success: "",
+        errors: {
+          email: 'Wrong email adress, sign up to create an account',
+          password: '',
+        }  
+      }
+    } else {
+      let checkPassword = await bcrypt.compare(password, user.password)
+      if (checkPassword) {
+        await createSession(user.id)
+        redirect('/expenses')
+      } else {
+        return {
+          success: "",
+          errors: {
+            email: '',
+            password: 'Wrong password, verify well you password',
+          }  
+        }
+      }
+    }
+  }
+
+}
+

@@ -9,6 +9,7 @@ type SearchParamProps = {
 const ExpensePage = async ({searchParams}: SearchParamProps) => {
     const session = await verifySession()
     if (!session) return null
+    console.log(session.userId)
     const expenses = await prisma.expense.findMany({
         include: {
             categorie: true,
