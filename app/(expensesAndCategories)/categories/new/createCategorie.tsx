@@ -1,11 +1,14 @@
 'use server';
 
+import { verifySession } from "@/lib/dal";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { number, success, z } from "zod/v4";
 
 export default async function CreateCategorie(state: any, formData: FormData) {
+    /*const session = await verifySession()
+    if (!session) return null*/
     const id = parseInt(formData.get("id") as string);
     const name = formData.get("name") as string;
     let isHasLimitAmountInString = formData.get("isHasLimitAmount") as string;

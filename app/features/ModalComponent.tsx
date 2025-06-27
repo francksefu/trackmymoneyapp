@@ -1,9 +1,9 @@
 'use client'
 import Modal from "react-modal";
 import { useState } from "react";
-import AddOrUpdateCategorie from "../categories/addOrUpdateCategorie";
+import AddOrUpdateCategorie from "../(expensesAndCategories)/categories/addOrUpdateCategorie";
 import { useRouter } from 'next/navigation';
-import { DeleteCategorie } from "../categories/new/createCategorie";
+import { DeleteCategorie } from "../(expensesAndCategories)/categories/new/createCategorie";
 
 export default function ModalComponent ({data, deleteId}: {data: null|{name: string, isHasLimitAmount: boolean, amount: null|number, id: number}, deleteId: null|number}) {
     const [modalIsOpen, setIsOpen] = useState(true);

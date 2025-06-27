@@ -1,5 +1,6 @@
 'use server';
 
+import { verifySession } from "@/lib/dal";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -12,6 +13,8 @@ export default async function CreateExpenses(prevState: any, formData: FormData)
     const categorieId = parseFloat(formData.get("idCategorie") as string);
     let datetimeInString = formData.get("datetime") as string;
     let date = new Date(datetimeInString);
+    const session = await verifySession()
+    if (!session) return null
     //think about type validation with zod of something like that franck
     async function saveInDataBase(id: number | null = null) {
         if (id) {

@@ -16,7 +16,7 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-  email String
+  email String @unique
   password String
   names String?
   dateT DateTime?
@@ -34,7 +34,7 @@ model Expense {
 
 model Categorie {
   id Int @id @default(autoincrement())
-  name String
+  name String 
   isHasLimitAmount Boolean
   amount Float?
   expenses Expense[]

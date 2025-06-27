@@ -1,7 +1,8 @@
 
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import ModalComponent from "../features/ModalComponent";
+import ModalComponent from "../../features/ModalComponent";
+import { verifySession } from "@/lib/dal";
 
 
 type SearchParamProps = {
@@ -9,6 +10,8 @@ type SearchParamProps = {
 };
 
 const CategoriePage = async ({ searchParams }: SearchParamProps) => {
+    /*const session = await verifySession()
+    if (!session) return null*/
     const showContent = await searchParams;
     const show = showContent?.show;
     const deleteCategorie = showContent?.delete;
