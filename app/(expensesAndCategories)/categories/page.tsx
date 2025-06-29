@@ -6,7 +6,7 @@ import { verifySession } from "@/lib/dal";
 
 
 type SearchParamProps = {
-  searchParams: Record<string, string> | null | undefined;
+  searchParams: Record<string, string>;
 };
 
 const CategoriePage = async ({ searchParams }: SearchParamProps) => {
