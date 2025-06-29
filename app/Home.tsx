@@ -30,7 +30,7 @@ export default function Home({categories, calculateExpensePerCategorie}:{categor
     Chart.register(CategoryScale);
     return (
         <>
-            <h1 className="text-2xl text-center text-blue-950">Your Data will be display here ! keep creating !</h1>
+            <h1 className="text-2xl text-center text-blue-950 dark:text-white">Your Data will be display here ! keep creating !</h1>
             <div className="flex justify-center">
                 <div className="chart-container w-4xl">
                     <h2 style={{ textAlign: "center" }}>Bar Chart</h2>

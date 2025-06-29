@@ -3,7 +3,7 @@ import ExpenseTemplate from "./expenseTemplate";
 import { verifySession } from "@/lib/dal";
 
 type SearchParamProps = {
-    searchParams: Record<string, string> | null | undefined;
+    searchParams: Promise< {show?: string, delete?: string}>
 };
 
 const ExpensePage = async ({searchParams}: SearchParamProps) => {

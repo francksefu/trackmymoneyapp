@@ -3,11 +3,10 @@ import ModalUpdateDeleteExpense from "./ModalUpdateDeleteExpense";
 import prisma from "@/lib/prisma";
 
 type SearchParamProps = {
-    show: Record<string, string> | null | undefined;
-    delete: Record<string, string> | null | undefined;
+    searchParams: Promise< {show?: string, delete?: string}>
 };
 
-export default async function ExpenseTemplate ({searchParams, expenses} : {searchParams: Record<string, string> | null | undefined, expenses: ({
+export default async function ExpenseTemplate ({searchParams, expenses} : {searchParams: Promise< {show?: string, delete?: string}> | null, expenses: ({
     categorie: {
         name: string;
         id: number;

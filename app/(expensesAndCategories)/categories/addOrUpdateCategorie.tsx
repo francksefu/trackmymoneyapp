@@ -41,7 +41,7 @@ export default function AddOrUpdateCategorie ({data}: {data: null|{name: string,
                                 }}
                                 
                             />
-                            {state.errors?.name ? (<div className="text-red-500">{state.errors?.name}</div>) : ""}
+                            {state?.errors?.name ? (<div className="text-red-500">{state.errors?.name}</div>) : ""}
                         </div>
                         
                             <div className="w-full">
@@ -71,14 +71,14 @@ export default function AddOrUpdateCategorie ({data}: {data: null|{name: string,
                                         onChange={(e) => setAmount(e.target.value? parseFloat(e.target.value) : 0)}
                                         
                                     />
-                                    {state.errors?.amount ? (<div className="text-red-500">{state.errors?.amount}</div>) : ""}
+                                    {state?.errors?.amount ? (<div className="text-red-500">{state.errors?.amount}</div>) : ""}
                                 </div>
                             )}
                             <input type="hidden" name="id" value={id} onChange={(e) => setId(e.target.value? parseFloat(e.target.value) : 0)} />
                         
                     </div>
                     <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700">{isPending ? "Loading..." : "Categorie"}</button>
-                    {state.success ? (<div className="text-red-500">{state.success}</div>) : ""}
+                    {state?.success ? (<div className="text-red-500">{state.success}</div>) : ""}
                 </form>
             </div>
         </section>
