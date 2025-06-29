@@ -2,11 +2,6 @@ import Link from "next/link";
 import ModalUpdateDeleteExpense from "./ModalUpdateDeleteExpense";
 import prisma from "@/lib/prisma";
 
-type SearchParamProps = {
-    show: Record<string, string> | null | undefined;
-    delete: Record<string, string> | null | undefined;
-};
-
 export default async function ExpenseTemplate ({searchParams, expenses} : {searchParams: Record<string, string> | null | undefined, expenses: ({
     categorie: {
         name: string;
