@@ -1,6 +1,7 @@
 import { verifySession } from "@/lib/dal";
 import prisma from "@/lib/prisma";
 import Home from "./Home";
+import Navbar from "./features/Navbar";
 type Categorie = {
     name: string;
     id: number;
@@ -33,7 +34,11 @@ export default async function Page() {
     }
 
     return (
+        <>
+        <Navbar />
         <Home categories={categories} calculateExpensePerCategorie={calculateExpensePerCategorie()} />
+        </>
+        
     );
     
 }
