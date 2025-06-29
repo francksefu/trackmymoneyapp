@@ -72,7 +72,7 @@ export default async function ExpenseTemplate ({searchParams, expenses} : {searc
                                     <Link href={`/expenses/?show=${expense.id}`} className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
                                         Edit
                                     </Link>
-                                    <Link href={`/expenses/?delete=${expense.id}`} className="border-purple-200 text-purple-600 m-1 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 px-1 py-1 rounded-lg border ">
+                                    <Link href={`/expenses/?delete=${expense.id}`} className="border-purple-200 text-red-200 m-1 hover:border-transparent hover:bg-red-400 hover:text-white active:bg-red-400 px-1 py-1 rounded-lg border ">
                                         Delete
                                     </Link>
                                 </td>
