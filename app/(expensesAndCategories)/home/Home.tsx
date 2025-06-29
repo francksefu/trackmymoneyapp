@@ -20,7 +20,7 @@ export default function Home({categories, calculateExpensePerCategorie}:{categor
                 label: "expenses related to differents categories",
                 data: calculateExpensePerCategorie,
                 backgroundColor: [
-                    "rgba(75,192,192,1)",
+                    "#162456",
                 ],
                 borderColor: "black",
                 borderWidth: 2
@@ -31,8 +31,8 @@ export default function Home({categories, calculateExpensePerCategorie}:{categor
     return (
         <>
             <h1 className="text-2xl text-center text-blue-950">Your Data will be display here ! keep creating !</h1>
-            <div className="">
-                <div className="chart-container">
+            <div className="flex justify-center">
+                <div className="chart-container w-4xl">
                     <h2 style={{ textAlign: "center" }}>Bar Chart</h2>
                     <Bar
                         data={chartData}
