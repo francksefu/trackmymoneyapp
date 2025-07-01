@@ -114,8 +114,6 @@ const Navbar = () => {
                     }} >
                     Log out
                 </button>
-                
-                
             </div>
         </nav>
     );
